@@ -14,9 +14,9 @@ namespace PedometerU.Tests
 
         public Text stepText, distanceText;
         private Pedometer pedometer;
-        public int countStepsby;
+        public int numberOfEncounters;
         private double assistant;
-        public int value_we_choose;
+        public int stepToEncounter;
         private void Start()
         {
             // Create a new pedometer
@@ -31,10 +31,10 @@ namespace PedometerU.Tests
             stepText.text = steps.ToString();
             distanceText.text = (distance * 3.28084).ToString("F2") + " ft";
             double distanceVal = distance * 3.28084;
-            if (distanceVal >= assistant + value_we_choose)
+            if (distanceVal >= assistant + stepToEncounter)
             {
                 assistant = distanceVal;
-                countStepsby++;
+                numberOfEncounters++;
             }
 
         }
