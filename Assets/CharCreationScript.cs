@@ -11,6 +11,9 @@ public class CharCreationScript : MonoBehaviour
     public Text yes;
     public Text no;
 
+    public GameObject go;
+
+
     public string seeText = "Papierowe Królestwo potrzebuje bohatera." +
                             "Czy będzie nim wyszkolony w starożytnym klasztorze mnich, " +
                             "który stracił wzrok podczas najazdu na Grafitową Wioskę?";
@@ -53,9 +56,14 @@ public class CharCreationScript : MonoBehaviour
 
     public void ChangeToNo()
     {
-        ans[answer] = 0;
-        answer++;
+
         //Debug.Log("Answer:" + answer.ToString());
+        if (answer < 3)
+        {
+            ans[answer] = 0;
+            answer++;
+        }
+        
 
         switch (answer)
         {
@@ -63,6 +71,7 @@ public class CharCreationScript : MonoBehaviour
             {
                 //Debug.Log("Case 1");
                 question.text = hearText;
+
                 break;
             }
             case 2:
@@ -74,10 +83,19 @@ public class CharCreationScript : MonoBehaviour
                 break;
             }
     }
+        
     }
 
-    //public void ChangeAnswer()
-    //{
-      
-    //}
+    public void noChange()
+    {
+        //Debug.Log("Three nos");
+        if (answer > 2)
+        {
+            go.SetActive(true);
+            this.gameObject.SetActive(false);
+            
+        }
+    }
+
+
 }
