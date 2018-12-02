@@ -17,6 +17,7 @@ namespace PedometerU.Tests
         public int numberOfEncounters;
         private double assistant = 0;
         public int stepToEncounter;
+        public bool inEncounter = false;
 
         public GameObject encGo;
 
@@ -34,16 +35,27 @@ namespace PedometerU.Tests
             stepText.text = steps.ToString();
             //distanceText.text = (distance * 3.28084).ToString("F2") + " ft";
             double distanceVal = steps;
-            if (distanceVal >= assistant + stepToEncounter)
+            if (!inEncounter)
+            {
+                if (distanceVal >= assistant + stepToEncounter)
+                {
+                    inEncounter = true;
+                    assistant = distanceVal;
+                    numberOfEncounters++;
+                    encGo.SetActive(true);
+                    gameObject.SetActive(false);
+                }
+            }
+            else
             {
                 assistant = distanceVal;
-                numberOfEncounters++;
-                encGo.SetActive(true);
-                gameObject.SetActive(false);
             }
-
         }
 
+        public void EncounterEnd()
+        {
+            inEncounter = false;
+        }
 
         private void OnDisable()
         {
