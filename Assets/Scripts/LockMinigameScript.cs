@@ -20,14 +20,19 @@ public class LockMinigameScript : MonoBehaviour {
         ColorBlock cbLeft;
         ColorBlock cbRight;
         public GameObject walk;
-	
-	void Start ()
+
+        public AudioClip lockUnlock;
+        public AudioClip lockBreak;
+        public AudioClip lockClick;
+        public AudioSource audioSource;
+
+    void Start ()
 	{
         
         cbLeft = buttonLeft.colors;
 	    cbRight = buttonRight.colors;
+	    audioSource = FindObjectOfType<AudioSource>();
 
-        
 
         //cb.pressedColor = wrongColor;
         //buttonLeft.colors = cb;
@@ -56,25 +61,6 @@ public class LockMinigameScript : MonoBehaviour {
 	        cbRight.pressedColor = correctColor;
 	        buttonRight.colors = cbRight;
         }
-	    
-
-
-
-
-	    Debug.Log("Array Length" + arrLength.ToString());
-	    string temp2 = "";
-        for (int i = 0; i < arrLength; i++)
-        {
-            temp2 += lockArray[i].ToString() + "  p:" + progress;
-
-        }
-	    Debug.Log("Num: " + temp2);
-	    string temp3 = "";
-	    for (int i = 0; i < progress; i++)
-	    {
-	        temp3 += "  ";
-	    }
-	    Debug.Log(temp3 + "^ " + lockArray[progress] + " " + progress);
     }
 	
 	// Update is called once per frame
@@ -84,20 +70,6 @@ public class LockMinigameScript : MonoBehaviour {
 
     public void VerifyLock(int ver)
     {
-        string temp2 = "";
-        for (int i = 0; i < arrLength; i++)
-        {
-            temp2 += lockArray[i].ToString() + " ";
-
-        }
-        Debug.Log("" + temp2 + "  v: " + ver + "  p:" + progress);
-        string temp3 = "";
-        for (int i = 0; i <= progress; i++)
-        {
-            temp3 += "  ";
-        }
-        Debug.Log(temp3 + "^ " + lockArray[progress] + " " + progress);
-
         if (progress < arrLength - 1)
         {
             if (lockArray[progress + 1] == 1)
@@ -118,15 +90,16 @@ public class LockMinigameScript : MonoBehaviour {
 
         if (ver == lockArray[progress])
         {
-            Debug.Log(lockArray[progress] + " " + progress);
 
             // click sound
             if (progress != arrLength - 1)
             {
+                audioSource.PlayOneShot(lockClick);
                 progress++;
             }
             else
             {
+                audioSource.PlayOneShot(lockUnlock);
                 walk.SetActive(true);
                 this.gameObject.SetActive(false);
             }
@@ -134,54 +107,22 @@ public class LockMinigameScript : MonoBehaviour {
         else
         {
             //crack sound
-            Debug.Log("u fkd up");
+            audioSource.PlayOneShot(lockBreak);
             progress = 0;
-            incorrectLockpicking(ver);
-            
-            temp3 = "";
-            for (int i = 0; i < progress; i++)
+            if (lockArray[0] == 1)
             {
-                temp3 += "  ";
+                cbLeft.pressedColor = correctColor;
+                buttonLeft.colors = cbLeft;
+                cbRight.pressedColor = incorrectColor;
+                buttonRight.colors = cbRight;
             }
-            Debug.Log(temp3 + "^ " + lockArray[progress] + " " + progress);
-        }
-    }
-
-    private void correctLockpicking(int v)
-    {
-        if (v == 1)
-        {
-            cbLeft.pressedColor = correctColor;
-            buttonLeft.colors = cbLeft;
-            cbRight.pressedColor = incorrectColor;
-            buttonRight.colors = cbRight;
-        }
-        else
-        {
-            cbLeft.pressedColor = incorrectColor;
-            buttonLeft.colors = cbLeft;
-            cbRight.pressedColor = correctColor;
-            buttonRight.colors = cbRight;
-        }
-
-    }
-
-    private void incorrectLockpicking(int v)
-    {
-        if (v == 1)
-        {
-            cbLeft.pressedColor = incorrectColor;
-            buttonLeft.colors = cbLeft;
-            cbRight.pressedColor = correctColor;
-            buttonRight.colors = cbRight;
-           
-        }
-        else
-        {
-            cbLeft.pressedColor = correctColor;
-            buttonLeft.colors = cbLeft;
-            cbRight.pressedColor = incorrectColor;
-            buttonRight.colors = cbRight;
+            else
+            {
+                cbLeft.pressedColor = incorrectColor;
+                buttonLeft.colors = cbLeft;
+                cbRight.pressedColor = correctColor;
+                buttonRight.colors = cbRight;
+            }
         }
     }
 }
