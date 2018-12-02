@@ -9,13 +9,18 @@ public class DifficultyScript : MonoBehaviour {
     "Ta przekazała mu krótką przepowiednię, która w przyszłości ma zawładnąć jego losem. Ta przepowiednia to:";
     public Text question;
 
+    public AudioClip questionSound;
+    public AudioSource audioSource;
+
     public int dif = 0;
 
 
 	// Use this for initialization
 	void Start () {
 		question.text = txt;
-	}
+        audioSource = FindObjectOfType<AudioSource>();
+	    audioSource.PlayOneShot(questionSound);
+    }
 	
 	// Update is called once per frame
 	void Update () {

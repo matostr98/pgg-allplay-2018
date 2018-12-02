@@ -10,6 +10,8 @@ public class CharCreationScript : MonoBehaviour
     public Text question;
     public Text yes;
     public Text no;
+    public GameObject yesButton;
+    public GameObject noButton;
 
     public GameObject go;
 
@@ -30,6 +32,13 @@ public class CharCreationScript : MonoBehaviour
     public string aNoTxt = "Wyszedł bez szwanku (porusza się)";
     public string aYesTxt = "Używa siły woli (nie porusza się)";
 
+    public AudioClip q1;
+    public AudioClip q2;
+    public AudioClip q3;
+    public AudioClip q3y;
+    public AudioClip q3n;
+    public AudioSource audioSource;
+
 
     private int answer = 0;
     public int[] ans = new int[3] { -1, -1, -1 };
@@ -41,6 +50,8 @@ public class CharCreationScript : MonoBehaviour
         question.text = seeText;
         yes.text = yesTxt;
         no.text = noTxt;
+        audioSource = FindObjectOfType<AudioSource>();
+        audioSource.PlayOneShot(q1);
     }
 	
 	// Update is called once per frame 
@@ -71,8 +82,9 @@ public class CharCreationScript : MonoBehaviour
             {
                 //Debug.Log("Case 1");
                 question.text = hearText;
+                audioSource.PlayOneShot(q2);
 
-                break;
+                    break;
             }
             case 2:
             {
@@ -80,7 +92,10 @@ public class CharCreationScript : MonoBehaviour
                 question.text = moveText;
                 yes.text = aYesTxt;
                 no.text = aNoTxt;
-                break;
+                yesButton.GetComponent<ButtonHighlight>().buttonSound = q3y;
+                noButton.GetComponent<ButtonHighlight>().buttonSound = q3n;
+                audioSource.PlayOneShot(q3);
+                    break;
             }
     }
         
