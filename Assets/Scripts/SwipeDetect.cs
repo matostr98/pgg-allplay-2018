@@ -17,10 +17,13 @@ public class SwipeDetect : MonoBehaviour
         Left
     }
 
+    public EnemyAttack enemyAttack;
     public static event Action<SwipeDirection> Swipe;
     private bool swiping = false;
     private bool eventSent = false;
     private Vector2 lastPosition;
+    public Image arrow;
+    public Button button;
 
     void Update()
     {
@@ -50,6 +53,14 @@ public class SwipeDetect : MonoBehaviour
                             if (direction.x > 0)
                             {
                                 Debug.Log("right");
+                                if (enemyAttack.attacking)
+                                {
+                                    StopCoroutine(enemyAttack.enemyAttack());
+                                    arrow.enabled = false;
+                                    button.gameObject.SetActive(true);
+                                    enemyAttack.inEncounter = false;
+                                }
+                                
                                 //directionText.text = "right";
                                 //Swipe(SwipeDirection.Right);
                             }

@@ -16,13 +16,17 @@ public class SummaryScript : MonoBehaviour
                             " najazdu na Grafitową Wioskę. Nie używa wzroku do rozgrywki, co nie przeszkadza mu" +
                             " w wyostrzeniu pozostałych zmysłów do walki z Lordem Gryzmołem.";
 
+    public AudioClip monkClip;
+
     public string samuraiTxt ="Nasz Bohater to Prawdawny Samuraj, który wsłuchując się jedynie w swoją duszę opracował" +
                               "technikę walki opartą na wzroku - Gumki-Mazaki. Nie używa słuchu do rozgrywki, co nie przeszkadza mu" +
                              " w wyostrzeniu pozostałych zmysłów do walki z Lordem Gryzmołem";
+    public AudioClip samuraiClip;
 
     public string accidentTxt = "Niestety - Niszczarkanion uszkodził trwale naszego Bohatera. " +
                                 "Będzie musiał pokonać arcywroga siłą woli, wykorzystując mistyczną telekinezę unieruchomiony " +
                                 "podczas powrotu do zdrowia w Klasztorze Cyrkielików.";
+    public AudioClip accidentClip;
 
     public string noaccidentTxt =
         "Mimo sytuacji z Niszczarkanionem, nasz Bohater wyrusza w podróż gotów machać mieczem i składać czary.";
@@ -35,14 +39,17 @@ public class SummaryScript : MonoBehaviour
 	    if (script.GetComponent<CharCreationScript>().ans[0] == 1)
 	    {
 	        question.text = monkTxt;
+            audioSrc.PlayOneShot(monkClip);
 	    } else if (script.GetComponent<CharCreationScript>().ans[1] == 1)
 	    {
 	        question.text = samuraiTxt;
+	        audioSrc.PlayOneShot(samuraiClip);
         }
 	    else if (script.GetComponent<CharCreationScript>().ans[2] == 1)
 	    {
 	        question.text = accidentTxt;
-	    }
+	        audioSrc.PlayOneShot(accidentClip);
+        }
 	    else
 	    {
 	        question.text = noaccidentTxt;
@@ -50,7 +57,5 @@ public class SummaryScript : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

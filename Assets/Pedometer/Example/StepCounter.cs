@@ -8,6 +8,7 @@ namespace PedometerU.Tests
 
     using UnityEngine;
     using UnityEngine.UI;
+    
 
     public class StepCounter : MonoBehaviour
     {
@@ -18,8 +19,11 @@ namespace PedometerU.Tests
         private double assistant = 0;
         public int stepToEncounter;
         public bool inEncounter = false;
+        public GameObject walk;
+        bool fight = false;
 
         public GameObject encGo;
+        public GameObject lckGo;
 
         private void Start()
         {
@@ -42,8 +46,29 @@ namespace PedometerU.Tests
                     inEncounter = true;
                     assistant = distanceVal;
                     numberOfEncounters++;
-                    encGo.SetActive(true);
-                    gameObject.SetActive(false);
+                    int tmp = Random.Range(0, 10);
+                    if (!fight)
+                    {
+                        fight = true;
+                        encGo.GetComponent<FightReset>().Reset();
+                        encGo.SetActive(true);
+                        walk.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        //lckGo.GetComponent<LockMinigameScript>().ArrayInit();
+                        lckGo.SetActive(true);
+                        walk.gameObject.SetActive(false);
+                    }
+                    //if (tmp < 6)
+                    //{
+                        
+                    //}
+                    //else
+                    //{
+                        
+
+                    //}
                 }
             }
             else

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PedometerU.Tests;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class LockMinigameScript : MonoBehaviour {
 
         ColorBlock cbLeft;
         ColorBlock cbRight;
+        public GameObject player;
         public GameObject walk;
 
         public AudioClip lockUnlock;
@@ -37,19 +39,19 @@ public class LockMinigameScript : MonoBehaviour {
         //cb.pressedColor = wrongColor;
         //buttonLeft.colors = cb;
 
-        arrLength = Random.Range(4, 8);
+	    arrLength = Random.Range(4, 8);
 	    lockArray = new int[arrLength];
 
 	    for (int i = 0; i < arrLength; i++)
 	    {
-            int temp = Random.Range(1, 3);
+	        int temp = Random.Range(1, 3);
 	        lockArray[i] = temp;
 	    }
-	    
+
 	    //Chamska inicjalizacja
 	    if (lockArray[0] == 1)
 	    {
-            cbLeft.pressedColor = correctColor;
+	        cbLeft.pressedColor = correctColor;
 	        buttonLeft.colors = cbLeft;
 	        cbRight.pressedColor = incorrectColor;
 	        buttonRight.colors = cbRight;
@@ -60,16 +62,40 @@ public class LockMinigameScript : MonoBehaviour {
 	        buttonLeft.colors = cbLeft;
 	        cbRight.pressedColor = correctColor;
 	        buttonRight.colors = cbRight;
+	    }
+    }
+
+    public void ArrayInit()
+    {
+        arrLength = Random.Range(4, 8);
+        lockArray = new int[arrLength];
+
+        for (int i = 0; i < arrLength; i++)
+        {
+            int temp = Random.Range(1, 3);
+            lockArray[i] = temp;
+        }
+
+        //Chamska inicjalizacja
+        if (lockArray[0] == 1)
+        {
+            cbLeft.pressedColor = correctColor;
+            buttonLeft.colors = cbLeft;
+            cbRight.pressedColor = incorrectColor;
+            buttonRight.colors = cbRight;
+        }
+        else
+        {
+            cbLeft.pressedColor = incorrectColor;
+            buttonLeft.colors = cbLeft;
+            cbRight.pressedColor = correctColor;
+            buttonRight.colors = cbRight;
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void VerifyLock(int ver)
     {
+        
         if (progress < arrLength - 1)
         {
             if (lockArray[progress + 1] == 1)
@@ -101,6 +127,8 @@ public class LockMinigameScript : MonoBehaviour {
             {
                 audioSource.PlayOneShot(lockUnlock);
                 walk.SetActive(true);
+                player.GetComponent<StepCounter>().EncounterEnd();
+                player.SetActive(true);
                 this.gameObject.SetActive(false);
             }
         }
